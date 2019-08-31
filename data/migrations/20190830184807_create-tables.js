@@ -1,6 +1,7 @@
 
 exports.up = function(knex) {
-    return knex.schema.createTable("projects", table => {
+    return knex.schema
+    .createTable("projects", table => {
         table.increments();
         table.string("name")
             .notNullable()
@@ -10,6 +11,7 @@ exports.up = function(knex) {
             .notNullable()
             .defaultTo(false);
     })
+
     .createTable("resources", table => {
         table.increments();
         table.string("name")
@@ -17,11 +19,15 @@ exports.up = function(knex) {
             .notNullable();
         table.string("description");
     })
+
     .createTable("tasks", table => {
         table.increments();
         table.string("description")
             .notNullable();
         table.string("notes")
+        table.boolean("completed")
+            .notNullable()
+            .defaultTo(false);
         table.integer("project_id")
             .unsigned()
             .notNullable()
@@ -30,6 +36,7 @@ exports.up = function(knex) {
             .onDelete("CASCADE")
             .onUpdate("CASCADE")
     })
+    
     .createTable("project_tasks", table => {
         table.integer("project_id")
             .unsigned()
