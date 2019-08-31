@@ -87,8 +87,8 @@ server.post("/api/tasks", (req, res) => {
 //Get tasks includes project name and description 
 server.get("/api/tasks", (req, res) => {
     db("tasks as t")
-        .leftJoin("projects as p", "p.name", "t.project_id")
-        .select("t.id", "t.description", "t.name")
+        .leftJoin("projects as p", "p.id", "t.project_id")
+        .select("t.id", "t.description", "t.notes", "p.name", "p.description", "t.completed")
         .then(tasks => {
             res.status(200).json(tasks);
         })
